@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
+  <meta name="theme-color" content="#1e40af" />
+  <meta name="description" content="MU Piping Calculator - Professional ASME piping tools for Oil & Gas, Petrochemical, Offshore, Refinery" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <title>MU Piping Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <a href="#" class="logo" onclick="showPage('dashboard'); return false;">
+      <div class="logo-icon">MU</div>
+      <div class="logo-copy">
+        <span class="logo-title">MU Piping Calculator</span>
+        <span class="logo-tagline">Fast. Accurate. Professional</span>
+      </div>
+    </a>
+    <div class="desktop-search-box" id="desktopSearchBox">
+      <input type="search" id="desktopSearchInput" class="desktop-search-input" placeholder="Search calculators, formulas, notes…" autocomplete="off" />
+      <div class="desktop-search-results" id="desktopSearchResults" style="display:none"></div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="icon-btn" id="themeBtn" title="Theme" aria-label="Theme"><span id="themeIcon">☀️</span></button>
+      <button type="button" class="icon-btn" id="langBtn" title="Language" aria-label="Language">🌐</button>
+    </div>
+  </header>
+
+  <div class="lang-sheet" id="langSheet" hidden>
+    <div class="lang-sheet-backdrop" id="langSheetBackdrop"></div>
+    <div class="lang-sheet-panel">
+      <div class="lang-sheet-title">Language / மொழி</div>
+      <button type="button" class="lang-option" data-lang="en">English</button>
+      <button type="button" class="lang-option" data-lang="hi">हिन्दी</button>
+      <button type="button" class="lang-option" data-lang="pt">Português</button>
+      <button type="button" class="lang-option" data-lang="ta">தமிழ்</button>
+    </div>
+  </div>
+
+  
+  <div class="unit-picker-sheet" id="unitPickerSheet" hidden>
+    <div class="unit-picker-backdrop" id="unitPickerBackdrop"></div>
+    <div class="unit-picker-panel">
+      <div class="unit-picker-handle"></div>
+      <div class="unit-picker-title">Select unit</div>
+      <div class="unit-picker-search-wrap">
+        <input type="search" id="unitPickerSearch" class="unit-picker-search" placeholder="Search units (inch, psi, kg…)" autocomplete="off" />
+      </div>
+      <div class="unit-picker-list" id="unitPickerList"></div>
+    </div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search calculators..." autofocus />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <!-- Sidebar (Desktop) -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-title">Main</div>
+        <button class="nav-item active" data-page="dashboard"><span class="icon">🏠</span> Dashboard</button>
+        <button class="nav-item" data-page="favorites"><span class="icon">⭐</span> Favorites</button>
+        <button class="nav-item" data-page="recent"><span class="icon">🕐</span> Recent</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Pipe Calculations</div>
+        <button class="nav-item" data-page="pipe-weight"><span class="icon">⚖️</span> Pipe Weight</button>
+        <button class="nav-item" data-page="pipe-volume"><span class="icon">🧪</span> Pipe Volume</button>
+        <button class="nav-item" data-page="pipe-schedule"><span class="icon">📐</span> Pipe Schedule</button>
+        <button class="nav-item" data-page="pipe-length"><span class="icon">📏</span> Pipe Length</button>
+        <button class="nav-item" data-page="surface-area"><span class="icon">⬜</span> Surface Area</button>
+        <button class="nav-item" data-page="painting"><span class="icon">🎨</span> Painting</button>
+        <button class="nav-item" data-page="insulation"><span class="icon">🧥</span> Insulation</button>
+        <button class="nav-item" data-page="support-spacing"><span class="icon">🔩</span> Support Spacing</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Fittings & Bends</div>
+        <button class="nav-item" data-page="elbow"><span class="icon">↪️</span> Elbow</button>
+        <button class="nav-item" data-page="mitre"><span class="icon">✂️</span> Mitre Bend</button>
+        <button class="nav-item" data-page="rolling-offset"><span class="icon">🔄</span> Rolling Offset</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Flanges & Bolting</div>
+        <button class="nav-item" data-page="flange"><span class="icon">⭕</span> Flange</button>
+        <button class="nav-item" data-page="bolt-torque"><span class="icon">🔧</span> Bolt Torque</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Testing & Stress</div>
+        <button class="nav-item" data-page="hydrotest"><span class="icon">💧</span> Hydrotest</button>
+        <button class="nav-item" data-page="b31-3-stress"><span class="icon">📈</span> B31.3 Stress</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Fabrication</div>
+        <button class="nav-item" data-page="welding"><span class="icon">🔥</span> Welding</button>
+        <button class="nav-item" data-page="mto"><span class="icon">📋</span> MTO</button>
+        <button class="nav-item" data-page="cog"><span class="icon">📍</span> Center of Gravity</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Tools</div>
+        <button class="nav-item" data-page="unit-converter"><span class="icon">🔀</span> Unit Converter</button>
+        <button class="nav-item" data-page="formula-library"><span class="icon">📚</span> Formula Library</button>
+        <button class="nav-item" data-page="notes"><span class="icon">📝</span> Engineering Notes</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+      <!-- Dashboard -->
+      <div class="page active" id="page-dashboard">
+        <div class="card-grid" id="dashboardGrid"></div>
+      </div>
+
+      <!-- Dynamic calculator pages will be injected here -->
+      <div id="calcPages"></div>
+
+      <!-- Favorites -->
+      <div class="page" id="page-favorites">
+        <h1 class="page-title">Favorites</h1>
+        <p class="page-subtitle">Your starred calculators</p>
+        <div class="card-grid" id="favoritesGrid"></div>
+      </div>
+
+      <!-- Recent -->
+      <div class="page" id="page-recent">
+        <h1 class="page-title">Recent Calculations</h1>
+        <p class="page-subtitle">Last used calculators</p>
+        <div id="recentList"></div>
+      </div>
+
+      <!-- Formula Library -->
+      <div class="page" id="page-formula-library">
+        <h1 class="page-title">Engineering Formula Library</h1>
+        <p class="page-subtitle">ASME & industry standard formulas</p>
+        <div id="formulaList"></div>
+      </div>
+
+      <!-- Notes -->
+      <div class="page" id="page-notes">
+        <h1 class="page-title">Engineering Notes</h1>
+        <p class="page-subtitle">Quick reference & best practices</p>
+        <div id="notesList"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bottom Navigation (Mobile) -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav-item active" data-page="dashboard">
+      <span class="icon">🏠</span>
+      <span>Home</span>
+    </button>
+    <button class="bottom-nav-item" data-page="favorites">
+      <span class="icon">⭐</span>
+      <span>Fav</span>
+    </button>
+    <button class="bottom-nav-item" id="bottomSearch">
+      <span class="icon">🔍</span>
+      <span>Search</span>
+    </button>
+    <button class="bottom-nav-item" data-page="recent">
+      <span class="icon">🕐</span>
+      <span>Recent</span>
+    </button>
+    <button class="bottom-nav-item" data-page="formula-library">
+      <span class="icon">📚</span>
+      <span>Formulas</span>
+    </button>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/pipe-data.js"></script>
+  <script src="js/calculators.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
